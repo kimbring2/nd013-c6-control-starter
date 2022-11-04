@@ -2,7 +2,7 @@
  * Self-Driving Car Nano-degree - Udacity
  *  Created on: September 20, 2020
  *      Author: Munir Jojo-Verge
- 				Aaron Brown
+        Aaron Brown
  **********************************************/
 
 /**
@@ -92,8 +92,9 @@ MotionPlanner motion_planner(P_NUM_PATHS, P_GOAL_OFFSET, P_ERR_TOLERANCE);
 bool have_obst = false;
 vector<State> obstacles;
 
-void path_planner(vector<double>& x_points, vector<double>& y_points, vector<double>& v_points, double yaw, double velocity, State goal, bool is_junction, string tl_state, vector< vector<double> >& spirals_x, vector< vector<double> >& spirals_y, vector< vector<double> >& spirals_v, vector<int>& best_spirals){
-
+void path_planner(vector<double>& x_points, vector<double>& y_points, vector<double>& v_points, double yaw, double velocity, State goal, 
+                  bool is_junction, string tl_state, vector< vector<double> >& spirals_x, vector< vector<double> >& spirals_y, vector< vector<double> >& spirals_v, 
+                  vector<int>& best_spirals){
   State ego_state;
 
   ego_state.location.x = x_points[x_points.size()-1];
@@ -101,10 +102,10 @@ void path_planner(vector<double>& x_points, vector<double>& y_points, vector<dou
   ego_state.velocity.x = velocity;
 
   if( x_points.size() > 1 ){
-  	ego_state.rotation.yaw = angle_between_points(x_points[x_points.size()-2], y_points[y_points.size()-2], x_points[x_points.size()-1], y_points[y_points.size()-1]);
-  	ego_state.velocity.x = v_points[v_points.size()-1];
-  	if(velocity < 0.01)
-  		ego_state.rotation.yaw = yaw;
+    ego_state.rotation.yaw = angle_between_points(x_points[x_points.size()-2], y_points[y_points.size()-2], x_points[x_points.size()-1], y_points[y_points.size()-1]);
+    ego_state.velocity.x = v_points[v_points.size()-1];
+    if(velocity < 0.01)
+      ego_state.rotation.yaw = yaw;
 
   }
 
@@ -113,17 +114,17 @@ void path_planner(vector<double>& x_points, vector<double>& y_points, vector<dou
   goal = behavior_planner.state_transition(ego_state, goal, is_junction, tl_state);
 
   if(behavior == STOPPED){
+    int max_points = 20;
+    double point_x = x_points[x_points.size()-1];
+    double point_y = y_points[x_points.size()-1];
+    while( x_points.size() < max_points ){
+      x_points.push_back(point_x);
+      y_points.push_back(point_y);
+      v_points.push_back(0);
 
-  	int max_points = 20;
-  	double point_x = x_points[x_points.size()-1];
-  	double point_y = y_points[x_points.size()-1];
-  	while( x_points.size() < max_points ){
-  	  x_points.push_back(point_x);
-  	  y_points.push_back(point_y);
-  	  v_points.push_back(0);
+    }
 
-  	}
-  	return;
+    return;
   }
 
   auto goal_set = motion_planner.generate_offset_goals(goal);
@@ -134,20 +135,19 @@ void path_planner(vector<double>& x_points, vector<double>& y_points, vector<dou
 
   State lead_car_state;  // = to the vehicle ahead...
 
-  if(spirals.size() == 0){
-  	cout << "Error: No spirals generated " << endl;
-  	return;
+  if (spirals.size() == 0) {
+    cout << "Error: No spirals generated " << endl;
+    return;
   }
 
-  for(int i = 0; i < spirals.size(); i++){
-
-    auto trajectory = motion_planner._velocity_profile_generator.generate_trajectory( spirals[i], desired_speed, ego_state,
-                                                                                    lead_car_state, behavior);
+  for (int i = 0; i < spirals.size(); i++) {
+    auto trajectory = motion_planner._velocity_profile_generator.generate_trajectory(spirals[i], desired_speed, ego_state,
+                                                                                     lead_car_state, behavior);
 
     vector<double> spiral_x;
     vector<double> spiral_y;
     vector<double> spiral_v;
-    for(int j = 0; j < trajectory.size(); j++){
+    for (int j = 0; j < trajectory.size(); j++) {
       double point_x = trajectory[j].path_point.x;
       double point_y = trajectory[j].path_point.y;
       double velocity = trajectory[j].v;
@@ -165,13 +165,13 @@ void path_planner(vector<double>& x_points, vector<double>& y_points, vector<dou
   best_spirals = motion_planner.get_best_spiral_idx(spirals, obstacles, goal);
   int best_spiral_idx = -1;
 
-  if(best_spirals.size() > 0)
-  	best_spiral_idx = best_spirals[best_spirals.size()-1];
+  if (best_spirals.size() > 0)
+    best_spiral_idx = best_spirals[best_spirals.size()-1];
 
   int index = 0;
   int max_points = 20;
   int add_points = spirals_x[best_spiral_idx].size();
-  while( x_points.size() < max_points && index < add_points ){
+  while (x_points.size() < max_points && index < add_points) {
     double point_x = spirals_x[best_spiral_idx][index];
     double point_y = spirals_y[best_spiral_idx][index];
     double velocity = spirals_v[best_spiral_idx][index];
@@ -180,20 +180,20 @@ void path_planner(vector<double>& x_points, vector<double>& y_points, vector<dou
     y_points.push_back(point_y);
     v_points.push_back(velocity);
   }
-
-
 }
 
-void set_obst(vector<double> x_points, vector<double> y_points, vector<State>& obstacles, bool& obst_flag){
 
-	for( int i = 0; i < x_points.size(); i++){
-		State obstacle;
-		obstacle.location.x = x_points[i];
-		obstacle.location.y = y_points[i];
-		obstacles.push_back(obstacle);
-	}
-	obst_flag = true;
+void set_obst(vector<double> x_points, vector<double> y_points, vector<State>& obstacles, bool& obst_flag) {
+  for (int i = 0; i < x_points.size(); i++) {
+    State obstacle;
+    obstacle.location.x = x_points[i];
+    obstacle.location.y = y_points[i];
+    obstacles.push_back(obstacle);
+  }
+
+  obst_flag = true;
 }
+
 
 int main ()
 {
@@ -218,22 +218,21 @@ int main ()
   /**
   * TODO (Step 1): create pid (pid_steer) for steer command and initialize values
   **/
-
+  PID pid_steer = PID();
+  pid_steer.Init(0.25, 0.001, 0.7, 1, -1);
 
   // initialize pid throttle
   /**
   * TODO (Step 1): create pid (pid_throttle) for throttle command and initialize values
   **/
-
-  PID pid_steer = PID();
   PID pid_throttle = PID();
+  pid_throttle.Init(0.20, 0.001, 0.02, 1, -1);
 
-  h.onMessage([&pid_steer, &pid_throttle, &new_delta_time, &timer, &prev_timer, &i, &prev_timer](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode)
+  h.onMessage([&pid_steer, &pid_throttle, &new_delta_time, &timer, &prev_timer, &i, &prev_timer](uWS::WebSocket<uWS::SERVER> ws, 
+              char *data, size_t length, uWS::OpCode opCode)
   {
         auto s = hasData(data);
-
         if (s != "") {
-
           auto data = json::parse(s);
 
           // create file to save values
@@ -258,10 +257,10 @@ int main ()
           double y_position = data["location_y"];
           double z_position = data["location_z"];
 
-          if(!have_obst){
-          	vector<double> x_obst = data["obst_x"];
-          	vector<double> y_obst = data["obst_y"];
-          	set_obst(x_obst, y_obst, obstacles, have_obst);
+          if (!have_obst) {
+            vector<double> x_obst = data["obst_x"];
+            vector<double> y_obst = data["obst_y"];
+            set_obst(x_obst, y_obst, obstacles, have_obst);
           }
 
           State goal;
@@ -288,35 +287,50 @@ int main ()
           /**
           * TODO (step 3): uncomment these lines
           **/
-//           // Update the delta time with the previous command
-//           pid_steer.UpdateDeltaTime(new_delta_time);
+          // Update the delta time with the previous command
+          pid_steer.UpdateDeltaTime(new_delta_time);
 
           // Compute steer error
           double error_steer;
-
-
           double steer_output;
 
           /**
           * TODO (step 3): compute the steer error (error_steer) from the position and the desired trajectory
           **/
-//           error_steer = 0;
+          //error_steer = (waypoint_x - x_position) / new_delta_time;
+          
+          double dis_min = 10000.0;
+          int close_id = 0;
 
+          /**
+          * (step 3): compute the steer error (error_steer) from the position and the desired trajectory
+          **/
+          for (int i = 0; i < x_points.size(); ++i) {
+            double act_dis = pow((x_position - x_points[i]), 2) + pow((y_position - y_points[i]), 2);
+            if (act_dis < dis_min) {
+              dis_min = act_dis;
+              close_id = i;
+            }
+          }
+
+          error_steer = angle_between_points(x_position, y_position, x_points[close_id], y_points[close_id]) - yaw;
+          
           /**
           * TODO (step 3): uncomment these lines
           **/
-//           // Compute control to apply
-//           pid_steer.UpdateError(error_steer);
-//           steer_output = pid_steer.TotalError();
+          // Compute control to apply
+          pid_steer.UpdateError(error_steer);
+          steer_output = pid_steer.TotalError();
 
-//           // Save data
-//           file_steer.seekg(std::ios::beg);
-//           for(int j=0; j < i - 1; ++j) {
-//               file_steer.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-//           }
-//           file_steer  << i ;
-//           file_steer  << " " << error_steer;
-//           file_steer  << " " << steer_output << endl;
+          // Save data
+          file_steer.seekg(std::ios::beg);
+          for (int j = 0; j < i - 1; ++j) {
+              file_steer.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+          }
+
+          file_steer  << i ;
+          file_steer  << " " << error_steer;
+          file_steer  << " " << steer_output << endl;
 
           ////////////////////////////////////////
           // Throttle control
@@ -325,18 +339,17 @@ int main ()
           /**
           * TODO (step 2): uncomment these lines
           **/
-//           // Update the delta time with the previous command
-//           pid_throttle.UpdateDeltaTime(new_delta_time);
+          // Update the delta time with the previous command
+          pid_throttle.UpdateDeltaTime(new_delta_time);
 
           // Compute error of speed
           double error_throttle;
+
           /**
           * TODO (step 2): compute the throttle error (error_throttle) from the position and the desired speed
           **/
           // modify the following line for step 2
-          error_throttle = 0;
-
-
+          error_throttle = v_points[close_id] - velocity;
 
           double throttle_output;
           double brake_output;
@@ -344,29 +357,29 @@ int main ()
           /**
           * TODO (step 2): uncomment these lines
           **/
-//           // Compute control to apply
-//           pid_throttle.UpdateError(error_throttle);
-//           double throttle = pid_throttle.TotalError();
+          // Compute control to apply
+          pid_throttle.UpdateError(error_throttle);
+          double throttle = pid_throttle.TotalError();
 
-//           // Adapt the negative throttle to break
-//           if (throttle > 0.0) {
-//             throttle_output = throttle;
-//             brake_output = 0;
-//           } else {
-//             throttle_output = 0;
-//             brake_output = -throttle;
-//           }
+          // Adapt the negative throttle to break
+          if (throttle > 0.0) {
+            throttle_output = throttle;
+            brake_output = 0;
+          } else {
+            throttle_output = 0;
+            brake_output = -throttle;
+          }
+          
+          // Save data
+          file_throttle.seekg(std::ios::beg);
+          for (int j = 0; j < i - 1; ++j) {
+              file_throttle.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+          }
 
-//           // Save data
-//           file_throttle.seekg(std::ios::beg);
-//           for(int j=0; j < i - 1; ++j){
-//               file_throttle.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-//           }
-//           file_throttle  << i ;
-//           file_throttle  << " " << error_throttle;
-//           file_throttle  << " " << brake_output;
-//           file_throttle  << " " << throttle_output << endl;
-
+          file_throttle << i ;
+          file_throttle << " " << error_throttle;
+          file_throttle << " " << brake_output;
+          file_throttle << " " << throttle_output << endl;
 
           // Send control
           json msgJson;
@@ -383,7 +396,7 @@ int main ()
           msgJson["spiral_idx"] = best_spirals;
           msgJson["active_maneuver"] = behavior_planner.get_active_maneuver();
 
-          //  min point threshold before doing the update
+          // min point threshold before doing the update
           // for high update rate use 19 for slow update rate use 4
           msgJson["update_point_thresh"] = 16;
 
@@ -394,35 +407,26 @@ int main ()
           file_throttle.close();
 
       ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
-
     }
-
   });
-
 
   h.onConnection([](uWS::WebSocket<uWS::SERVER> ws, uWS::HttpRequest req)
   {
-      cout << "Connected!!!" << endl;
-    });
-
+    cout << "Connected!!!" << endl;
+  });
 
   h.onDisconnection([&h](uWS::WebSocket<uWS::SERVER> ws, int code, char *message, size_t length)
-    {
-      ws.close();
-      cout << "Disconnected" << endl;
-    });
+  {
+    ws.close();
+    cout << "Disconnected" << endl;
+  });
 
   int port = 4567;
-  if (h.listen("0.0.0.0", port))
-    {
-      cout << "Listening to port " << port << endl;
-      h.run();
-    }
-  else
-    {
-      cerr << "Failed to listen to port" << endl;
-      return -1;
-    }
-
-
+  if (h.listen("0.0.0.0", port)) {
+    cout << "Listening to port " << port << endl;
+    h.run();
+  } else {
+    cerr << "Failed to listen to port" << endl;
+    return -1;
+  }
 }
