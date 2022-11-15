@@ -9,8 +9,9 @@ The car should have the higher velocity than the velocity at next point of the p
 # Step 3: PID controller for steer:
 The car should steer it's direction based on the yaw angle of car and the angle of current position and next point of the planned path.
 
+<img src="images/pid_steer_reason.png" width="400">
+
 [Comment](https://github.com/kimbring2/nd013-c6-control-starter/blob/8b4f6fbf70fc8b0fe980d34b8ef685dae77e9229/project/pid_controller/main.cpp#L318)
-<img src="images/pid_steer_reason.png" width="800">
 
 # Step 4: Evaluate the PID efficiency
 ## 1. Add the plots to your report and explain them (describe what you see)
