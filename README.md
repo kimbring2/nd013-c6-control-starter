@@ -10,7 +10,10 @@ Take a screenshot and add it to your report. The car should not move in the simu
 <img src="images/pid_steer_reason.png" width="800">
 
 # Step 4: Evaluate the PID efficiency
-## 1) 0.01, 0.01, 0.01, 1.2, -1.2
+## 1. Add the plots to your report and explain them (describe what you see)
+First, I fix the parameter for the PID controller of the throttle as (0.20, 0.001, 0.50, 1.2, -1.2 / Kpi, Kii, Kdi, output_lim_maxi, output_lim_mini) for easy analyzing. 
+
+## 1) 0.01, 0.01, 0.01, 1.2, -1.2 / Kpi, Kii, Kdi, output_lim_maxi, output_lim_mini
 <img src="images/test(0.01%2C%200.01%2C%200.01%2C%201.2%2C%20-1.2)/Figure_1.png" width="400">
 
 ## 2) 0.05, 0.01, 0.01, 1.2, -1.2
@@ -40,7 +43,6 @@ Take a screenshot and add it to your report. The car should not move in the simu
 ## 9) 0.20, 0.001, 0.50, 1.2, -1.2
 <img src="images/test(0.20%2C%200.001%2C%200.50%2C%201.2%2C%20-1.2)/Figure_1.png" width="400">
 
-1. Add the plots to your report and explain them (describe what you see)
 2. What is the effect of the PID according to the plots, how each part of the PID affects the control command?
 3. How would you design a way to automatically tune the PID parameters?
 4. PID controller is a model free controller, i.e. it does not use a model of the car. Could you explain the pros and cons of this type of controller?
