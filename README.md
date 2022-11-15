@@ -71,6 +71,7 @@ The car should steer it's direction based on the yaw angle of car and the angle 
 ## 1. Add the plots to your report and explain them (describe what you see)
 ### Steering Plot
 <img src="images/test(0.20%2C%200.001%2C%200.50%2C%201.2%2C%20-1.2)/Figure_1.png" width="400">
+
 ### Throttle Plot
 <img src="images/test(0.20%2C%200.001%2C%200.50%2C%201.2%2C%20-1.2)/Figure_2.png" width="400">
 
