@@ -218,8 +218,19 @@ int main ()
   /**
   * TODO (Step 1): create pid (pid_steer) for steer command and initialize values
   **/
+  
+  // pid_steer.Init(0.25, 0.001, 0.7, 1.2, -1.2);
   PID pid_steer = PID();
-  pid_steer.Init(0.20, 0.05, 0.5, 1.2, -1.2);
+  //pid_steer.Init(0.01, 0.01, 0.01, 1.2, -1.2);
+  //pid_steer.Init(0.05, 0.01, 0.01, 1.2, -1.2);
+  //pid_steer.Init(0.20, 0.01, 0.01, 1.2, -1.2);
+  //pid_steer.Init(0.20, 0.005, 0.01, 1.2, -1.2);
+  //pid_steer.Init(0.20, 0.0025, 0.01, 1.2, -1.2);
+  //pid_steer.Init(0.20, 0.001, 0.01, 1.2, -1.2);
+  //pid_steer.Init(0.20, 0.001, 0.05, 1.2, -1.2);
+  //pid_steer.Init(0.20, 0.001, 0.1, 1.2, -1.2);
+  //pid_steer.Init(0.20, 0.001, 0.25, 1.2, -1.2);
+  pid_steer.Init(0.20, 0.001, 0.50, 1.2, -1.2);
 
   // initialize pid throttle
   /**
@@ -430,3 +441,4 @@ int main ()
     return -1;
   }
 }
+
