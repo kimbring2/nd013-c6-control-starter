@@ -1,9 +1,10 @@
 # Step 1: Build the PID controller object
-<img src="images/step_1.png" width="1000">
+<img src="images/step_1.png" width="800">
 
 # Step 2: PID controller for throttle:
 
 # Step 3: PID controller for steer:
+<img src="images/pid_steer_reason.png" width="800">
 
 # Step 4: Evaluate the PID efficiency
 <img src="images/step_3_1.png" width="800">
