@@ -1,9 +1,12 @@
 # Step 1: Build the PID controller object
+Take a screenshot and add it to your report. The car should not move in the simulation.
 <img src="images/step_1.png" width="800">
 
 # Step 2: PID controller for throttle:
+[Comment](https://github.com/kimbring2/nd013-c6-control-starter/blob/8b4f6fbf70fc8b0fe980d34b8ef685dae77e9229/project/pid_controller/main.cpp#L355)
 
 # Step 3: PID controller for steer:
+[Comment](https://github.com/kimbring2/nd013-c6-control-starter/blob/8b4f6fbf70fc8b0fe980d34b8ef685dae77e9229/project/pid_controller/main.cpp#L318)
 <img src="images/pid_steer_reason.png" width="800">
 
 # Step 4: Evaluate the PID efficiency
